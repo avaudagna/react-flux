@@ -3,16 +3,23 @@
 var React = require('react');
 var Router = require('react-router');
 var Link = Router.Link;
+var AuthorActions = require('../../actions/authorActions');
+var toastr = require('toastr');
 
 var AuthorList = React.createClass({
     propTypes: {
         authors: React.PropTypes.array.isRequired
     },
-
+   deleteAuthor: function(id, event) {
+        event.preventDefault();
+        AuthorActions.deleteAuthor(id);
+        toastr.success('Author Deleted');
+   },
    render: function () {
        var createAuthorRow = function(author) {
            return (
                <tr key = {author.id}>
+                   <td><Link to='authors' onClick={this.deleteAuthor.bind(this, author.id)}>Delete</Link></td>
                    <td><Link to='editAuthor' params={{id: author.id}}>{author.id}</Link></td>
                    <td>{author.firstName} {author.lastName}</td>
                </tr>
